@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api</title>
+
+    <style>
+      body{
+        background: linear-gradient(135deg,red,blue);
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+    
+      }
+      .container{
+        /* display: flex;
+        justify-content: center; */
+        margin-top: 200px;
+        padding: 20px;
+      }
+      .price{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .price .title{
+        font-size: 30px;
+        color: #07097a;
+        margin-bottom: 5px;
+      }
+      #amount-two{
+  
+      font-size: 20px;
+      outline: none;
+      border: 1px solid #777;
+      width: 300px;
+      border-radius:38px;
+      padding: 10px;
+      height: 30px;
+      color: #07097a;
+    }
+      #add{
+      padding: 10px 40px;
+      margin: 15px 0;
+      font-size: 20px;
+      color: #f5f5ff;
+      background-image:  linear-gradient(135deg, rgb(0, 97, 187), rgb(66 47 188));
+      border: navajowhite;
+      border-radius: 38px;
+      transition:  background-image 0.3s;
+      }
+      #add:hover{
+        background-image:linear-gradient(-135deg, rgb(0, 97, 187), rgb(66 47 188));
+      }
+      .price .cuntry{
+        background:linear-gradient(135deg, #7fc2fb -13%, #2121f98a 101%);
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .price .egp , .price .sar{
+        font-size: 35px;
+        color: white;
+        margin: 4px 0;
+      }
+      @media (max-width:400px) {
+        #amount-two{
+          width: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="price">
+        <div class="title">Currency App</div>
+        <input type="text" id="amount-two" placeholder="Enter amount in USA">
+        <button id="add">Add</button>
+        <div class="cuntry">
+          <div class="egp">Price in EGP: <span></span></div>
+          <div class="sar">Price in SAR: <span></span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+      fetch("https://api.currencyfreaks.com/v2.0/rates/latest?apikey=9b8556bb28ee4f55abd25feea7bc9ad6").then((result)=>{
+      let dataResult = result.json();
+      // console.log(dataResult)
+      return dataResult;
+      }).then((currancey)=>{
+      let add = document.getElementById("add");
+      let amountTwo = document.querySelector("#amount-two");
+      add.addEventListener("click",()=>{
+        if(amountTwo.value === "" || !Number(amountTwo.value) ){
+          alert("Must Add to number");
+        }else{
+        let valueInInput = amountTwo.value
+        // console.log(valueInInput)
+        let egpPrice = document.querySelector(".egp span");
+        let sarPrice = document.querySelector(".sar span");
+        egpPrice.innerHTML = Number(valueInInput* currancey.rates["EGP"]).toFixed(2);
+        sarPrice.innerHTML = Number(valueInInput * currancey.rates["SAR"]).toFixed(2);
+      // console.log(currancey.rates["EGP"])
+      // console.log(currancey.rates["SAR"])
+        }
+        amountTwo.value = "";
+      });
+      });
+  </script>
+  </body>
+</html>
